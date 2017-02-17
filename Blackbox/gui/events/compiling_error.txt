@@ -1,0 +1,13 @@
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0xf): undefined reference to `__gxx_personality_sj0'
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0x45): undefined reference to `EventFactory::EventFactory()'
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0x58): undefined reference to `operator new(unsigned int)'
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0x93): undefined reference to `operator new(unsigned int)'
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0xa4): undefined reference to `WindowEvent::WindowEvent()'
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0xd6): undefined reference to `operator new(unsigned int)'
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0x111): undefined reference to `operator new(unsigned int)'
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0x150): undefined reference to `operator delete(void*)'
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0x1c9): undefined reference to `std::ios_base::Init::~Init()'
+C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o:BaseEventFactory.cpp:(.text+0x1ea): undefined reference to `std::ios_base::Init::Init()'
+D:/Program Files/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/../../../../mingw32/bin/ld.exe: C:\Users\Mathieu\AppData\Local\Temp\ccSmewq0.o: bad reloc address 0xf in section `.text$_ZNSt3mapIiP5EventSt4lessIiESaISt4pairIKiS1_EEED1Ev[__ZNSt3mapIiP5EventSt4lessIiESaISt4pairIKiS1_EEED1Ev]'
+D:/Program Files/CodeBlocks/MinGW/bin/../lib/gcc/mingw32/4.9.2/../../../../mingw32/bin/ld.exe: final link failed: Invalid operation
+collect2.exe: error: ld returned 1 exit status
