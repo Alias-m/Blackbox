@@ -8,9 +8,9 @@
 
 class Component;
 
-namespace mouse_button_event
+namespace internal_event
 {
-    class MouseEvent
+    class MouseEvent : public InternalEvent
     {
         public:
             inline virtual ~MouseEvent() {}
@@ -43,20 +43,20 @@ namespace mouse_button_event
 }
 class MouseButtonEvent : public Event
 {
-    typedef void(mouse_button_event::MouseEvent::* componentButtonEvent)(Component* c, MouseButtonListener* listener);
-    typedef void(mouse_button_event::MouseEvent::* managerButtonEvent)(FrameManager* c, MouseButtonListener* listener);
+    typedef void(internal_event::MouseEvent::* componentButtonEvent)(Component* c, MouseButtonListener* listener);
+    typedef void(internal_event::MouseEvent::* managerButtonEvent)(FrameManager* c, MouseButtonListener* listener);
     protected:
         std::map<int, componentButtonEvent> componentClick;
         std::map<int, managerButtonEvent> managerClick;
         int type;
-        mouse_button_event::MouseEvent* event;
+        internal_event::MouseEvent* event;
     public:
         MouseButtonEvent(int i);
-        MouseButtonEvent(int i, mouse_button_event::MouseEvent* event);
+        MouseButtonEvent(int i, internal_event::MouseEvent* event);
         ~MouseButtonEvent();
         virtual void operator()(Component* c, Listener* listener) const;
         void operator()(FrameManager* manager, Listener* listener) const;
         inline virtual int getType() const {return type;}
-        void setEvent(mouse_button_event::MouseEvent* e);
+        void setEvent(internal_event::MouseEvent* e);
 };
 #endif // BLACKBOX_MOUSE_BUTTON_EVENT_H

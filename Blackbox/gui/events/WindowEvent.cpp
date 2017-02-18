@@ -3,158 +3,76 @@
 #include "../listeners/WindowListener.h"
 #include <iostream>
 
-WindowEvent::WindowEvent()
+WindowEvent::WindowEvent():event(new internal_event::DefaultWindowEvent())
 {
-    addEvent(new window_events::ShowEvent());
-    addEvent(new window_events::HideEvent());
-    addEvent(new window_events::ExposeEvent());
-    addEvent(new window_events::MoveEvent());
-    addEvent(new window_events::ResizeEvent());
-    addEvent(new window_events::SizeChangedEvent());
-    addEvent(new window_events::MinimizedEvent());
-    addEvent(new window_events::MaximizedEvent());
-    addEvent(new window_events::RestoredEvent());
-    addEvent(new window_events::EnterEvent());
-    addEvent(new window_events::LeaveEvent());
-    addEvent(new window_events::FocusGainedEvent());
-    addEvent(new window_events::FocusLostEvent());
-    addEvent(new window_events::CloseEvent());
-    addEvent(new window_events::TakeFocusEvent());
-    addEvent(new window_events::HitTestEvent());
-    addEvent(new window_events::UnknownEvent());
+    componentWindow[SDL_WINDOWEVENT_SHOWN] = &internal_event::WindowEvent::showEvent;
+    componentWindow[SDL_WINDOWEVENT_HIDDEN] = &internal_event::WindowEvent::hideEvent;
+    componentWindow[SDL_WINDOWEVENT_EXPOSED] = &internal_event::WindowEvent::exposeEvent;
+    componentWindow[SDL_WINDOWEVENT_MOVED] = &internal_event::WindowEvent::moveEvent;
+    componentWindow[SDL_WINDOWEVENT_RESIZED] = &internal_event::WindowEvent::resizeEvent;
+    componentWindow[SDL_WINDOWEVENT_SIZE_CHANGED] = &internal_event::WindowEvent::sizeChangedEvent;
+    componentWindow[SDL_WINDOWEVENT_MINIMIZED] = &internal_event::WindowEvent::minimizedEvent;
+    componentWindow[SDL_WINDOWEVENT_MAXIMIZED] = &internal_event::WindowEvent::maximizedEvent;
+    componentWindow[SDL_WINDOWEVENT_RESTORED] = &internal_event::WindowEvent::restoredEvent;
+    componentWindow[SDL_WINDOWEVENT_ENTER] = &internal_event::WindowEvent::enterEvent;
+    componentWindow[SDL_WINDOWEVENT_LEAVE] = &internal_event::WindowEvent::leaveEvent;
+    componentWindow[SDL_WINDOWEVENT_FOCUS_GAINED] = &internal_event::WindowEvent::focusGainedEvent;
+    componentWindow[SDL_WINDOWEVENT_FOCUS_LOST] = &internal_event::WindowEvent::focusLostEvent;
+    componentWindow[SDL_WINDOWEVENT_CLOSE] = &internal_event::WindowEvent::closeEvent;
+    componentWindow[SDL_WINDOWEVENT_TAKE_FOCUS] = &internal_event::WindowEvent::takeFocusEvent;
+    componentWindow[SDL_WINDOWEVENT_HIT_TEST] = &internal_event::WindowEvent::hitTestEvent;
+    componentWindow[-1] = &internal_event::WindowEvent::unknownEvent;
+
+    managerWindow[SDL_WINDOWEVENT_SHOWN] = &internal_event::WindowEvent::showEvent;
+    managerWindow[SDL_WINDOWEVENT_HIDDEN] = &internal_event::WindowEvent::hideEvent;
+    managerWindow[SDL_WINDOWEVENT_EXPOSED] = &internal_event::WindowEvent::exposeEvent;
+    managerWindow[SDL_WINDOWEVENT_MOVED] = &internal_event::WindowEvent::moveEvent;
+    managerWindow[SDL_WINDOWEVENT_RESIZED] = &internal_event::WindowEvent::resizeEvent;
+    managerWindow[SDL_WINDOWEVENT_SIZE_CHANGED] = &internal_event::WindowEvent::sizeChangedEvent;
+    managerWindow[SDL_WINDOWEVENT_MINIMIZED] = &internal_event::WindowEvent::minimizedEvent;
+    managerWindow[SDL_WINDOWEVENT_MAXIMIZED] = &internal_event::WindowEvent::maximizedEvent;
+    managerWindow[SDL_WINDOWEVENT_RESTORED] = &internal_event::WindowEvent::restoredEvent;
+    managerWindow[SDL_WINDOWEVENT_ENTER] = &internal_event::WindowEvent::enterEvent;
+    managerWindow[SDL_WINDOWEVENT_LEAVE] = &internal_event::WindowEvent::leaveEvent;
+    managerWindow[SDL_WINDOWEVENT_FOCUS_GAINED] = &internal_event::WindowEvent::focusGainedEvent;
+    managerWindow[SDL_WINDOWEVENT_FOCUS_LOST] = &internal_event::WindowEvent::focusLostEvent;
+    managerWindow[SDL_WINDOWEVENT_CLOSE] = &internal_event::WindowEvent::closeEvent;
+    managerWindow[SDL_WINDOWEVENT_TAKE_FOCUS] = &internal_event::WindowEvent::takeFocusEvent;
+    managerWindow[SDL_WINDOWEVENT_HIT_TEST] = &internal_event::WindowEvent::hitTestEvent;
+    managerWindow[-1] = &internal_event::WindowEvent::unknownEvent;
 }
 
-void WindowEvent::addEvent(window_events::WindowInternalEvent* e)
+WindowEvent::~WindowEvent()
 {
-
-    std::map<int, window_events::WindowInternalEvent*>::const_iterator it;
-    it = eventType.find(e->getType());
-    if(it != eventType.end())
-        delete it->second;
-    eventType[e->getType()] = e;
+    delete event;
 }
-
 void WindowEvent::operator()(Component* c, Listener* listener) const
 {
     WindowListener* w = dynamic_cast<WindowListener*>(listener);
-    (*getEvent(w->getWindowEvent()))(c, w);
+    componentWindowEvent method;
+    std::map<int,componentWindowEvent>::const_iterator it;
+    it = componentWindow.find(w->getWindowEvent());
+    method = (it != componentWindow.end() ? it->second : componentWindow.find(-1)->second);
+    (event->*method)(c, w);
 }
 
 void WindowEvent::operator()(FrameManager* manager, Listener* listener) const
 {
     WindowListener* w = dynamic_cast<WindowListener*>(listener);
-    (*getEvent(w->getWindowEvent()))(manager, w);
+    managerWindowEvent method;
+    std::map<int,managerWindowEvent>::const_iterator it;
+    it = managerWindow.find(w->getWindowEvent());
+    method = (it != managerWindow.end() ? it->second : managerWindow.find(-1)->second);
+    (event->*method)(manager, w);
 }
 
-window_events::WindowInternalEvent* WindowEvent::getEvent(const int i) const
+void WindowEvent::setEvent(internal_event::WindowEvent* e)
 {
-    std::map<int, window_events::WindowInternalEvent*>::const_iterator it;
-    it = eventType.find(i);
-    return it != eventType.end() ? it->second : eventType.find(-1)->second;
+    delete event;
+    event = e;
 }
 
-
-
-void window_events::ShowEvent::operator()(Component* c, WindowListener* listener) const
+void internal_event::DefaultWindowEvent::closeEvent(Component* c, WindowListener* listener)
 {
-    SDL_Log("Window %d shown", c->getID());
-}
-
-void window_events::ShowEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::HideEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d hidden", c->getID());
-}
-void window_events::HideEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::ExposeEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d exposed", c->getID());
-}
-void window_events::ExposeEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::MoveEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d moved to %d,%d", c->getID(), listener->getData1(), listener->getData2());
-}
-void window_events::MoveEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::ResizeEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d resized to %dx%d", c->getID(), listener->getData1(), listener->getData2());
-}
-void window_events::ResizeEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::SizeChangedEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d size changed to %dx%d", c->getID(), listener->getData1(), listener->getData2());
-}
-void window_events::SizeChangedEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::MinimizedEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d minimized", c->getID());
-}
-void window_events::MinimizedEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::MaximizedEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d maximized", c->getID());
-}
-void window_events::MaximizedEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::RestoredEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d restored", c->getID());
-}
-void window_events::RestoredEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::EnterEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Mouse entered window %d", c->getID());
-}
-void window_events::EnterEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::LeaveEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Mouse left window %d", c->getID());
-}
-void window_events::LeaveEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::FocusGainedEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d gained keyboard focus", c->getID());
-}
-void window_events::FocusGainedEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::FocusLostEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d lost keyboard focus", c->getID());
-}
-void window_events::FocusLostEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::CloseEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d is closed", c->getID());
     c->close();
 }
-void window_events::CloseEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::TakeFocusEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d is offered a focus", c->getID());
-}
-void window_events::TakeFocusEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::HitTestEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d has a special hit test", c->getID());
-}
-void window_events::HitTestEvent::operator()(FrameManager* manager, WindowListener* listener) const {}
-
-void window_events::UnknownEvent::operator()(Component* c, WindowListener* listener) const
-{
-    SDL_Log("Window %d got unknown event", c->getID());
-}
-void window_events::UnknownEvent::operator()(FrameManager* manager, WindowListener* listener) const {}

@@ -3,7 +3,7 @@
 #include "../Blackbox/gui/components/frames/frame.h"
 #include "../Blackbox/gui/components/FrameManager.h"
 #include "../Blackbox/gui/events/BaseEventFactory.h"
-#include "MouseButtonEventCustom.h"
+#include "debug/Debug.h"
 
 int main( int argc , char ** argv )
 {
@@ -11,7 +11,10 @@ int main( int argc , char ** argv )
     f.setVisible(true);
 
 
-    CustomEventFactory* events = new CustomEventFactory();
+    Frame f2("The game 2", FRAME_CENTERED_X, FRAME_CENTERED_Y, 700, 300);
+    f2.setVisible(true);
+
+    DebugEventFactory* events = new DebugEventFactory();
     f.setEventFactory(events);
 
     FrameManager::manager.run();

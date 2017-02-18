@@ -5,6 +5,14 @@ class Listener;
 class FrameManager;
 class WindowListener;
 
+namespace internal_event
+{
+    class InternalEvent
+    {
+        public:
+
+    };
+}
 class Event
 {
     public:
