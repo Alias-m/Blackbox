@@ -9,7 +9,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "../components.h"
-#include "../../events/BaseEventFactory.h"
+#include "../../events/factories/BaseEventFactory.h"
 class FrameManager;
 class Frame : public Component
 {

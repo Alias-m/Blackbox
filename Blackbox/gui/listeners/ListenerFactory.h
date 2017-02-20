@@ -4,14 +4,15 @@
 #include <map>
 #include <SDL2/SDL.h>
 #include "CommonEventListener.h"
-#include "AudioDeviceAddedListener.h"
-#include "AudioDeviceRemovedListener.h"
+#include "AudioDeviceListener.h"
 #include "ControllerAxisListener.h"
 #include "KeyDownListener.h"
 #include "KeyUpListener.h"
-#include "MouseButtonListener.h"
-#include "MouseMotionListener.h"
+#include "mouse/MouseButtonListener.h"
+#include "mouse/MouseMotionListener.h"
+#include "mouse/MouseWheelListener.h"
 #include "WindowListener.h"
+#include "QuitListener.h"
 
 typedef Listener*(*generator)(SDL_Event*);
 class ListenerFactory final

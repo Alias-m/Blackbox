@@ -32,6 +32,7 @@ void FrameManager::run()
            (*events->getEvent(evt.type))(this, l);
         else
             frames[windowID]->execute(l);
+        delete l;
     }
 }
 
@@ -44,4 +45,3 @@ void FrameManager::close()
     }
     state = 0;
 }
-

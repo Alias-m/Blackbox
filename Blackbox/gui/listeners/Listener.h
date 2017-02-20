@@ -5,6 +5,7 @@
 class Listener
 {
     public:
+        inline virtual ~Listener() {}
         virtual int getTarget() const {return 0;};
         virtual int getType() const {return 0;};
 };

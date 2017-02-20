@@ -3,7 +3,7 @@
 #include <vector>
 #include "../../utils/Bounds.h"
 #include "../../utils/Observable.h"
-#include "../events/EventFactory.h"
+#include "../events/factories/EventFactory.h"
 #include "../listeners/ListenerFactory.h"
 
 class Component;
@@ -22,6 +22,7 @@ class Component : public Observer
         virtual void close();
         void setEventFactory(EventFactory* e);
         void addEvent(Event* e);
+        void addEvent(internal_event::InternalEvent* e);
         virtual const int getID() const = 0;
 };
 #endif // BLACKBOX_COMPONENT_H

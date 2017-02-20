@@ -10,23 +10,24 @@ ListenerFactory::ListenerFactory()
     listenerList[SDL_MOUSEBUTTONDOWN] = MouseButtonListener::create;
     listenerList[SDL_MOUSEBUTTONUP] = MouseButtonListener::create;
     listenerList[SDL_MOUSEMOTION] = MouseMotionListener::create;
+    listenerList[SDL_MOUSEWHEEL] = MouseWheelListener::create;
+    listenerList[SDL_QUIT] = QuitListener::create;
+    listenerList[SDL_AUDIODEVICEADDED] = AudioDeviceListener::create;
+    listenerList[SDL_AUDIODEVICEREMOVED] = AudioDeviceListener::create;
 
     //TODO : Simple � r�aliser
-    //listenerList[SDL_AUDIODEVICEADDED] = AudioDeviceAddedListener::create;
-    //listenerList[SDL_AUDIODEVICEREMOVED] = AudioDeviceRemovedListener::create;
     //listenerList[SDL_CONTROLLERAXISMOTION] = ControllerAxisListener::create;
     //TODO : long � �crire
     //listenerList[SDL_KEYDOWN] = KeyDownListener::create;
     //listenerList[SDL_KEYUP] = KeyUpListener::create;
 
 
-    /*listenerList[SDL_MOUSEMOTION] = MouseMotionListener();
+    /*
     listenerList[SDL_JOYAXISMOTION] = JoyAxisMotionListener();
     listenerList[SDL_JOYBALLMOTION] = JoyBallMotionListener();
     listenerList[SDL_JOYHATMOTION] = JoyHatListener();
     listenerList[SDL_JOYBUTTONDOWN] = JoyButtonDownListener();
     listenerList[SDL_JOYBUTTONUP] = JoyButtonUpListener();
-    listenerList[SDL_QUIT] = QuitListener();
     listenerList[SDL_SYSWMEVENT] = SysWEventListener();
     listenerList[SDL_VIDEORESIZE] = VideoResizeListener();
     listenerList[SDL_VIDEOEXPOSE] = VideoExposeListener();

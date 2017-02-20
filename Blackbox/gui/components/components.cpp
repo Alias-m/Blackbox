@@ -14,3 +14,8 @@ void Component::addEvent(Event* e)
 {
     events->addEvent(e);
 }
+
+void Component::addEvent(internal_event::InternalEvent* e)
+{
+    events->addEvent(e);
+}
