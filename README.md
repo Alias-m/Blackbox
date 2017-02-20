@@ -1,5 +1,5 @@
 # Blackbox
-An oriented-object GUI framework in C++
+An object-oriented GUI framework in C++
 
 ##Utilization
 
