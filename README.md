@@ -13,7 +13,7 @@ Easy to use, the framework provides differents kinds of elements you can use to 
 ##TODO-LIST
 
 * **Frames**
-  * Implements the event propagation system
+  * Implement the event propagation system
   * Maybe it will lead to a different event handling system than components
 * **Components**
   * Create some basic widgets
