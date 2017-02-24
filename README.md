@@ -24,5 +24,5 @@ Easy to use, the framework provides differents kinds of elements you can use to 
   * Implement all predefined events objects
   * Implement the special custom event
 * **Design**
-  * Create a class designed to define the look & feel of a component
-  * These class have to be easy to override and customize
+  * Create classes designed to define the look & feel of a component
+  * These classes have to be easy to override and customize
