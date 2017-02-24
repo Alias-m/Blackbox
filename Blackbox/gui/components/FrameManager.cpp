@@ -3,6 +3,8 @@
 FrameManager FrameManager::manager;
 FrameManager::FrameManager()
 {
+    if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+        throw(INIT_FAIL);
     events = new BaseEventFactory();
     state = 1;
 }

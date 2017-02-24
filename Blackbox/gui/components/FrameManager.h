@@ -1,5 +1,6 @@
 #ifndef FRAME_MANAGER_H
 #define FRAME_MANAGER_H
+#define INIT_FAIL "Frame initiation failed\n"
 #include <map>
 #include "frames/frame.h"
 
